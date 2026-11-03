@@ -3,133 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find Your Match</title>
-    <!-- Preconnect to BeMob for instant redirection speed -->
-    <link rel="preconnect" href="https://u2udt.bemobtrcks.com">
+    <title>Dating Quiz</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
             margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 0;
             min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), 
+                        url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=80') center center / cover no-repeat fixed;
         }
-        .container {
+        .card {
             background: #ffffff;
-            width: 100%;
-            max-width: 420px;
             padding: 30px 20px;
             border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 360px;
+            width: 90%;
             text-align: center;
-            box-sizing: border-box;
         }
-        h2 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: #1a1a1a;
-        }
-        .step {
-            display: none;
-        }
-        .step.active {
-            display: block;
-        }
-        .btn {
-            display: block;
-            width: 100%;
-            background: #ff3366;
-            color: white;
-            border: none;
-            padding: 16px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-top: 12px;
-            box-shadow: 0 4px 12px rgba(255, 51, 102, 0.3);
-            transition: background 0.2s;
-        }
-        .btn:hover {
-            background: #e02e5a;
-        }
-        .online-badge {
-            display: inline-flex;
-            align-items: center;
+        .badge {
+            display: inline-block;
             background: #e6f4ea;
             color: #137333;
             padding: 6px 12px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 13px;
             font-weight: 600;
             margin-bottom: 20px;
         }
-        .online-dot {
-            width: 8px;
-            height: 8px;
-            background: #34a853;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 6px;
-            animation: pulse 1.5px infinite;
+        h2 {
+            font-size: 20px;
+            color: #202124;
+            margin-bottom: 24px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn-primary {
+            background: #ff3366;
+            color: white;
+        }
+        .btn-secondary {
+            background: #4a5568;
+            color: white;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="online-badge">
-            <span class="online-dot"></span> <span id="city-text">Profiles online near you</span>
-        </div>
-
-        <!-- Step 1 -->
-        <div id="step-1" class="step active">
-            <h2>Are you looking for casual dating or serious relationships?</h2>
-            <button class="btn" onclick="nextStep(2)">Casual Dating</button>
-            <button class="btn" onclick="nextStep(2)" style="background: #4a5568;">Serious Relationship</button>
-        </div>
-
-        <!-- Step 2 -->
-        <div id="step-2" class="step">
-            <h2>Do you prefer matches within 5 miles of your location?</h2>
-            <button class="btn" onclick="nextStep(3)">Yes, close to me</button>
-            <button class="btn" onclick="nextStep(3)" style="background: #4a5568;">Distance doesn't matter</button>
-        </div>
-
-        <!-- Step 3 (Final CTA) -->
-        <div id="step-3" class="step">
-            <h2>🎉 Perfect! We found active profiles matching your preferences.</h2>
-            <p style="font-size: 0.9rem; color: #666; margin-bottom: 20px;">You must be 18+ to view verified profiles.</p>
-            <button class="btn" onclick="redirectToOffer()">Continue & View Profiles</button>
-        </div>
+    <div class="card">
+        <div class="badge" id="city-text">33 women online near you</div>
+        <h2>Are you looking for casual dating or serious relationships?</h2>
+        <button class="btn btn-primary" onclick="redirectToOffer()">Casual Dating</button>
+        <button class="btn btn-secondary" onclick="redirectToOffer()">Serious Relationship</button>
     </div>
 
     <script>
-        // REPLACE THIS URL WITH YOUR BEMOB CLICK URL OR CAMPAIGN URL
-        const OFFER_URL = "https://u2udt.bemobtrcks.com/click"; 
-
-        function nextStep(stepNumber) {
-            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-            document.getElementById('step-' + stepNumber).classList.add('active');
-        }
+        /* REPLACE THIS URL WITH YOUR BEMOB CLICK URL OR CAMPAIGN URL */
+        const OFFER_URL = "https://u2udt.bemobtrcks.com/click";
 
         function redirectToOffer() {
             window.location.href = OFFER_URL;
         }
-
-        // Fetch user city via free IP api to personalize headline
-        fetch('https://ipapi.co/json/')
-            .then(res => res.json())
-            .then(data => {
-                if(data.city) {
-                    document.getElementById('city-text').innerText = `${Math.floor(Math.random() * 30) + 12} women online in ${data.city}`;
-                }
-            })
-            .catch(() => {});
     </script>
+
 </body>
 </html>
